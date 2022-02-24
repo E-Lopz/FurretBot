@@ -14,4 +14,4 @@ async def on_ready():
 async def hola(ctx):
     await ctx.reply('Que pedo pinches puercas \*Sonido de Appa\*')
     
-bot.run('OTQ2NDc4ODYyNjE3OTUyMjk3.YhfTIQ.XnNVnbI7qSbA_P_gGOImw0E7b64')
+bot.run('OTQ2NDc4ODYyNjE3OTUyMjk3.YhfTIQ.mrJqA1O2084PQInBAUYixUj1NHc')
