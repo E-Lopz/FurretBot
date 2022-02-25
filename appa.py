@@ -20,6 +20,7 @@ async def on_message(ctx):
         name = ctx.author.name
         str = "Callate a la verga "+name
         await ctx.reply(str)
+    await client.process_commands(ctx)
     
 @client.command()
 async def help(ctx):
