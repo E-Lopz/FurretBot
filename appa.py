@@ -5,7 +5,6 @@ from discord.ext import commands
 import youtube_dl
 import os
 import random
-import math
 
 client = commands.Bot(command_prefix='uwu ',help_command=None)
 
@@ -24,7 +23,7 @@ async def on_message(ctx):
     
 @client.command()
 async def help(ctx):
-    embed=discord.Embed(title="Lista de Comandos", description='<:Pablo0:782755700677541898>**Random**\nHola\n\n<:UwU:801886649469632562>**NSFW**\nTraps\n\n<:gabobb:787384850922995732>**Musica**\Play "la rola"\n\nRecuerda usar estos comandos despues del prefijo "uwu ". \nEspero haberte ayudado. <:like:783029416812609556>', color=0xFF5733)
+    embed=discord.Embed(title="Lista de Comandos", description='<:Pablo0:782755700677541898>**Random**\nHola\n\n<:UwU:801886649469632562>**NSFW**\nTraps\n\n<:gabobb:787384850922995732>**Musica**\n\Play "la rola"\n\nRecuerda usar estos comandos despues del prefijo "uwu ". \nEspero haberte ayudado. <:like:783029416812609556>', color=0xFF5733)
     await ctx.send(embed=embed)
 
 @client.command()
