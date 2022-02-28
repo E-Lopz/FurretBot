@@ -2,7 +2,7 @@
 import discord
 import sys
 from discord.ext import commands
-import youtube_dl
+import yt_dlp
 import os
 import random
 
@@ -85,7 +85,7 @@ async def play(ctx, url : str):
         await voiceChannel.connect()    
     vc = discord.utils.get(client.voice_clients,guild = ctx.guild)
     ydl_options = {'format': 'bestaudio/best','postprocessors' : [{'key': 'FFmpegExtractAudio', 'preferredcodec' : 'mp3','preferredquality':'192'}],}
-    with youtube_dl.YoutubeDL(ydl_options) as ydl:
+    with yt_dlp.YoutubeDL(ydl_options) as ydl:
         ydl.download([url])
     for file in os.listdir("./"):
         if file.endswith('.mp3'):
@@ -94,12 +94,36 @@ async def play(ctx, url : str):
             print("ya llegue")      
     vc.play(discord.FFmpegPCMAudio(source='song.mp3'))
 
-# Appa leaves the voice channel if he is in one
+# Appa leaves the voice channel if he's in one
 @client.command()
 async def leave(ctx):
     vc = discord.utils.get(client.voice_clients,guild = ctx.guild)
-    if vc!=None:
+    if vc != None:
         await vc.disconnect()
-    
+
+@client.command()
+async def pause(ctx):
+    vc = vc = discord.utils.get(client.voice_clients,guild = ctx.guild)
+    try:
+        vc.pause()
+    except:
+        print("Appa no puede pausar")
+      
+@client.command()
+async def resume(ctx):
+    vc = vc = discord.utils.get(client.voice_clients,guild = ctx.guild)
+    try:
+        vc.resume()
+    except:
+        print("Appa no puede continuar")
+
+@client.command()
+async def stop(ctx):
+    vc = vc = discord.utils.get(client.voice_clients,guild = ctx.guild)
+    try:
+        vc.stop()
+    except:
+        print("Appa no puede parar")
+  
     
 client.run('OTQ2NDc4ODYyNjE3OTUyMjk3.YhfTIQ.mrJqA1O2084PQInBAUYixUj1NHc')
