@@ -73,7 +73,7 @@ async def traps(ctx):
 
 # Appa joins a voice channel and plays the audio of the url given
 @client.command()
-async def play(ctx, url : str):
+async def play(ctx, *,url : str):
     isSong = os.path.isfile("song.mp3")
     try:
         if isSong:
