@@ -1,4 +1,5 @@
 ## This bot needs a previous installation of FFMPEG.
+from email import message
 import discord
 import sys
 from discord.ext import commands
@@ -19,26 +20,28 @@ async def on_ready():
 # Handles each message sent in the server
 @client.event
 async def on_message(ctx):
-    global beenCalled
-    global noStreetName
-    name = ctx.author.name # String with the name of the message remitent
-    # Gives a random probability to respond to the message sent
-    if name != "Appa": # The bot cannot respond to himself
-        randomInt = random.randrange(1,20,1)
-        if randomInt == 2: # Random response with a probability of 1/20
-            str = "Callate a la verga "+name
-            await ctx.reply(str)
-        # This response is composed in two parts, Appa saves the name of the person, he responded to the first time 
-        if (randomInt == 5) or (name == noStreetName): # Random response with a probability of 1/20
-            if  beenCalled and name == noStreetName: # If its the second time and its the same person
-                await ctx.reply("te pregunto, te falta calle hermano")
-                beenCalled = False # Reinitializes the variable
-                noStreetName = " " # Reinitializes the variable
-            else: # Its the first time
-                await ctx.reply("Quien?")
-                beenCalled = True 
-                noStreetName = name # Saves the name
-    await client.process_commands(ctx) # if the message is a command, processes it 
+    if not ctx.startswith('uwu'):
+        global beenCalled
+        global noStreetName
+        name = ctx.author.name # String with the name of the message remitent
+        # Gives a random probability to respond to the message sent
+        if name != "Appa": # The bot cannot respond to himself
+            randomInt = random.randrange(1,20,1)
+            if randomInt == 2: # Random response with a probability of 1/20
+                str = "Callate a la verga "+name
+                await ctx.reply(str)
+            # This response is composed in two parts, Appa saves the name of the person, he responded to the first time 
+            if (randomInt == 5) or (name == noStreetName): # Random response with a probability of 1/20
+                if  beenCalled and name == noStreetName: # If its the second time and its the same person
+                    await ctx.reply("te pregunto, te falta calle hermano")
+                    beenCalled = False # Reinitializes the variable
+                    noStreetName = " " # Reinitializes the variable
+                else: # Its the first time
+                    await ctx.reply("Quien?")
+                    beenCalled = True 
+                    noStreetName = name # Saves the name
+    else:
+        await client.process_commands(ctx) # if the message is a command, processes it 
 
 
 ## Text related commands
