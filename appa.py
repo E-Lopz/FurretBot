@@ -20,7 +20,7 @@ async def on_ready():
 # Handles each message sent in the server
 @client.event
 async def on_message(ctx):
-    if not ctx.startswith('uwu'):
+    if not ctx.content.startswith('uwu'):
         global beenCalled
         global noStreetName
         name = ctx.author.name # String with the name of the message remitent
