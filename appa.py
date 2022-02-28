@@ -84,7 +84,8 @@ async def play(ctx, url : str):
     if discord.utils.get(client.voice_clients,guild = ctx.guild)==None:
         await voiceChannel.connect()    
     vc = discord.utils.get(client.voice_clients,guild = ctx.guild)
-    ydl_options = {'format': 'bestaudio/best','postprocessors' : [{'key': 'FFmpegExtractAudio', 'preferredcodec' : 'mp3','preferredquality':'192'}],}
+    ydl_options = {'format': 'bestaudio/best','postprocessors' : [{'key': 'FFmpegExtractAudio', 'preferredcodec' : 'mp3','preferredquality':'192'}], 'noplaylist': True,
+    'default_search': 'auto',}
     with yt_dlp.YoutubeDL(ydl_options) as ydl:
         ydl.download([url])
     for file in os.listdir("./"):
