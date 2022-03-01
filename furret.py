@@ -95,33 +95,11 @@ async def play(ctx, *,url : str):
     if discord.utils.get(client.voice_clients,guild = ctx.guild)==None:
         await voiceChannel.connect() 
         discord.utils.get(client.voice_clients,guild = ctx.guild).play(discord.FFmpegPCMAudio(source='caminar.mp3'),)
-  
     vCl = discord.utils.get(client.voice_clients,guild = ctx.guild) 
-    # YDLP parameters
-    ydl_options = {'format': 'bestaudio/best',
-                   'postprocessors' : [
-                     {'key': 'FFmpegExtractAudio',
-                      'preferredcodec' : 'mp3',
-                      'preferredquality':'192'}
-                   ], 
-                   'noplaylist': True, 
-                   'default_search': 'auto'}
-    with yt_dlp.YoutubeDL(ydl_options) as ydl:
-        ydl.download([url])
-        # Extracts information, returns a dictionary
-        info = ydl.extract_info(url,download=False) 
-        title = info.get("title",None)
-        # Sends an embed with important information
-        embed = discord.Embed(title="Ahora estas escuchando:", description=title,color=0xFF5733)
-    # Finds the requested mp3 file and renames it
-    for file in os.listdir("./"):
-        if file.endswith('.mp3') and file!=("caminar.mp3"):
-            os.rename(file,"song.mp3")
-
+    songDl(ctx, url)
     # Wait for critical bot announcement.
     time.sleep(8)
-    await ctx.send(embed=embed)
-    vCl.play(discord.FFmpegPCMAudio(source='song.mp3'),after=lambda e: playQueue(ctx, vCl)) # Plays the mp3
+    vCl.play(discord.FFmpegPCMAudio(source='song.mp3'),after=lambda e: (playQueue(ctx, vCl))) # Plays the mp3
 
 # Furret leaves the voice channel if he's in one
 @client.command()
@@ -150,9 +128,19 @@ async def resume(ctx):
 
 # Furret stops playing the song and clears the queue
 @client.command()
+async def skip(ctx):
+    vCl = discord.utils.get(client.voice_clients,guild = ctx.guild)
+    try:
+        vCl.stop()
+    except:
+        print("Furret no puede parar")
+
+# Furret stops playing the song and clears the queue
+@client.command()
 async def stop(ctx):
     vCl = discord.utils.get(client.voice_clients,guild = ctx.guild)
     try:
+        musicQueue.clear()
         vCl.stop()
     except:
         print("Furret no puede parar")
@@ -169,30 +157,39 @@ def playQueue(ctx,vCl):
     except PermissionError:
         return
     url=musicQueue.pop(0)
-     # YDLP parameters
-    ydl_options = {'format': 'bestaudio/best',
-                   'postprocessors' : [
-                     {'key': 'FFmpegExtractAudio',
-                      'preferredcodec' : 'mp3',
-                      'preferredquality':'192'}
-                   ], 
-                   'noplaylist': True, 
-                   'default_search': 'auto'}
-    with yt_dlp.YoutubeDL(ydl_options) as ydl:
+    songDl(ctx,url)
+    vCl.play(discord.FFmpegPCMAudio(source='song.mp3'),after=lambda e: playQueue(ctx, vCl)) # Plays the mp3 
+  else:
+    time.sleep(20)
+    if musicQueue == []:
+      #vCl.disconnect()
+      print("desconectar")
+    else:
+      playQueue(ctx, vCl)
+
+def songDl(ctx,url):
+  # YDLP parameters
+  ydl_options = {'format': 'bestaudio/best',
+                'postprocessors' : [
+                {'key': 'FFmpegExtractAudio',
+                'preferredcodec' : 'mp3',
+                'preferredquality':'192'}
+                ], 
+                'noplaylist': True, 
+                'default_search': 'auto'}
+  with yt_dlp.YoutubeDL(ydl_options) as ydl:
       ydl.download([url])
       # Extracts information, returns a dictionary
       #info = ydl.extract_info(url,download=False) 
       #title = info.get("title",None)
       # Sends an embed with important information
       #embed = discord.Embed(title="Ahora estas escuchando:", description=title,color=0xFF5733)
-    # Finds the requested mp3 file and renames it
-    for file in os.listdir("./"):
-      if file.endswith('.mp3') and file!=("caminar.mp3"):
-        os.rename(file,"song.mp3")
-    #await ctx.send(embed=embed)
-    vCl.play(discord.FFmpegPCMAudio(source='song.mp3'),after=lambda e: playQueue(ctx, vCl)) # Plays the mp3 
-
-    def songdl(ctx,url)
+      # Finds the requested mp3 file and renames it
+      for file in os.listdir("./"):
+        if file.endswith('.mp3') and file!=("caminar.mp3"):
+          os.rename(file,"song.mp3")
+      #await ctx.send(embed=embed)
+      
   
     
 client.run('OTQ2NDc4ODYyNjE3OTUyMjk3.YhfTIQ.mrJqA1O2084PQInBAUYixUj1NHc')
