@@ -13,7 +13,7 @@ import time
 beenCalled = False
 noStreetName = ""
 musicQueue = []
-token = os.environ['token']
+
 
 client = commands.Bot(command_prefix='uwu ',help_command=None) # Creates our bot
 
@@ -193,5 +193,5 @@ def songDl(ctx,url):
       
   
     
-client.run(token)
+client.run("your token here")
 
